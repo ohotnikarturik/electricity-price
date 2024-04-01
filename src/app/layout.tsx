@@ -5,6 +5,8 @@ import CssBaseline from "@mui/material/CssBaseline"
 import theme from "@/theme"
 import { Box } from "@mui/material"
 
+export const dynamic = "force-dynamic"
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
