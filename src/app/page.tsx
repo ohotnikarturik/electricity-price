@@ -11,7 +11,7 @@ export default async function Home() {
   const hourlyPrices = await getHourlyPrices()
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Box
         sx={{
           my: 4,
@@ -25,7 +25,6 @@ export default async function Home() {
         <Typography variant="h5" component="h1" sx={{ mb: 2 }}>
           Electricity Hourly price 🇫🇮
         </Typography>
-        {/* <Calendar /> */}
         <Table rows={hourlyPrices} />
         <Copyright />
       </Box>

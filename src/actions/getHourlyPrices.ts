@@ -13,11 +13,7 @@ const prices = new Prices()
 export const getHourlyPrices = async () => {
   let hourlyPrices: HourlyPrice[] = []
   try {
-    const results = await prices.hourly({
-      area: "FI",
-      // currency: "EUR",
-      // date: "2024-03-21T21:47:54.912Z",
-    })
+    const results = await prices.hourly({ area: "FI" })
     hourlyPrices = results || []
   } catch (error) {
     console.log("error", error)
