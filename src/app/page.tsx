@@ -2,9 +2,11 @@ import Box from "@mui/material/Box"
 
 import Table from "@/components/Table"
 import { getHourlyPrices } from "@/actions/getHourlyPrices"
+import { Card } from "@mui/material"
+import BarChart from "@/components/BarChart"
 
 export default async function Home() {
-  const hourlyPrices = await getHourlyPrices()
+  const hourlyPrice = await getHourlyPrices()
 
   return (
     <Box
@@ -17,7 +19,10 @@ export default async function Home() {
         gap: 2,
       }}
     >
-      <Table rows={hourlyPrices} />
+      <Card sx={{ width: "100%", height: "100%", m: 2 }}>
+        <BarChart data={hourlyPrice} />
+      </Card>
+      <Table rows={hourlyPrice} />
     </Box>
   )
 }

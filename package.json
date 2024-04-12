@@ -21,7 +21,8 @@
     "next": "latest",
     "nordpool": "^5.1.0",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "recharts": "^2.12.5"
   },
   "devDependencies": {
     "@types/node": "latest",
