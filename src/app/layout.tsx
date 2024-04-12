@@ -3,7 +3,9 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter"
 import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import theme from "@/theme"
-import { Box } from "@mui/material"
+import { Box, Container } from "@mui/material"
+import Footer from "@/components/Footer"
+import Header from "@/components/Header"
 
 export const dynamic = "force-dynamic"
 
@@ -23,7 +25,11 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                 backgroundColor: "#f1f5f9",
               }}
             >
-              {props.children}
+              <Header />
+              <Container component="main" sx={{ flex: 1 }} maxWidth="md">
+                {props.children}
+              </Container>
+              <Footer />
             </Box>
           </ThemeProvider>
         </AppRouterCacheProvider>
