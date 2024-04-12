@@ -9,17 +9,8 @@ import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
 import { format, isSameHour } from "date-fns"
 
-const formatPrice = (value: number) => {
-  // convert it to snt/kWh and add Finnish VAT of 24 %
-  const price = Math.round(value * 1.24 * 100) / 1000
-  return price.toFixed(3)
-}
-
-interface HourlyPrice {
-  date: string
-  value: number
-  area: string
-}
+import { HourlyPrice } from "@/types"
+import { formatPrice } from "@/utils"
 
 interface Props {
   rows: HourlyPrice[]
