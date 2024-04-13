@@ -1,12 +1,32 @@
+"use client"
+
 import Box from "@mui/material/Box"
+import { Card, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
+import CircularProgress from "@mui/material/CircularProgress"
 
 import Table from "@/components/Table"
-import { getHourlyPrices } from "@/actions/getHourlyPrices"
-import { Card } from "@mui/material"
 import BarChart from "@/components/BarChart"
+import { HourlyPrice } from "@/types"
 
-export default async function Home() {
-  const hourlyPrice = await getHourlyPrices()
+export default function Home() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [hourlyPrices, setHourlyPrices] = useState<HourlyPrice[]>([])
+
+  const getHourlyPrices = async () => {
+    try {
+      const res = await fetch("http://localhost:8080/api/")
+      const prises = await res.json()
+      setHourlyPrices(prises)
+    } catch (error) {
+      console.log("error", error)
+    }
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    getHourlyPrices()
+  }, [])
 
   return (
     <Box
@@ -19,10 +39,18 @@ export default async function Home() {
         gap: 2,
       }}
     >
-      <Card sx={{ width: "100%", height: "100%", m: 2 }}>
-        <BarChart data={hourlyPrice} />
-      </Card>
-      <Table rows={hourlyPrice} />
+      {isLoading ? (
+        <CircularProgress />
+      ) : hourlyPrices.length > 0 ? (
+        <>
+          <Card sx={{ width: "100%" }}>
+            <BarChart data={hourlyPrices} />
+          </Card>
+          <Table rows={hourlyPrices} />
+        </>
+      ) : (
+        <Typography variant="body2">Try later, please</Typography>
+      )}
     </Box>
   )
 }

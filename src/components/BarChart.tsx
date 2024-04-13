@@ -7,7 +7,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   Bar,
 } from "recharts"
 
@@ -21,6 +20,7 @@ interface Props {
 }
 
 const BarChart = ({ data }: Props) => {
+  console.log(data)
   const adjustedData = useMemo(
     () =>
       data.map((item) => {
