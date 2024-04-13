@@ -9,18 +9,23 @@ import {
   Tooltip,
   Bar,
 } from "recharts"
+import useMediaQuery from "@mui/material/useMediaQuery"
+import { useMemo } from "react"
+import { format, isSameHour } from "date-fns"
 
 import { HourlyPrice } from "@/types"
-import { format, isSameHour } from "date-fns"
 import { formatPrice } from "@/utils"
-import { useMemo } from "react"
+import { useTheme } from "@mui/material"
 
 interface Props {
   data: HourlyPrice[]
 }
 
 const BarChart = ({ data }: Props) => {
-  console.log(data)
+  const theme = useTheme()
+  const isXsSm = useMediaQuery(theme.breakpoints.between("xs", "sm"))
+  const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"))
+
   const adjustedData = useMemo(
     () =>
       data.map((item) => {
@@ -35,7 +40,10 @@ const BarChart = ({ data }: Props) => {
   )
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer
+      width="100%"
+      height={isXsSm ? 200 : isSmMd ? 280 : 380}
+    >
       <Chart
         data={adjustedData}
         margin={{
@@ -51,7 +59,11 @@ const BarChart = ({ data }: Props) => {
         <Tooltip />
         <Bar
           dataKey="price"
-          label={{ position: "top", fontSize: 9, fontWeight: "bold" }}
+          label={{
+            position: "top",
+            fontSize: isXsSm ? 0 : isSmMd ? 6 : 9,
+            fontWeight: "bold",
+          }}
         />
       </Chart>
     </ResponsiveContainer>
