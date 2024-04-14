@@ -15,7 +15,7 @@ export default function Home() {
 
   const getHourlyPrices = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/")
+      const res = await fetch("/api/")
       const prises = await res.json()
       setHourlyPrices(prises)
     } catch (error) {
