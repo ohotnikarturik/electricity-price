@@ -31,7 +31,7 @@ export default function Table({ rows }: Props) {
               border: 0,
             },
             "&:nth-of-type(odd)": {
-              backgroundColor: "#eeeeee",
+              backgroundColor: isCurrent ? "#ffb74d" : "#eeeeee",
             },
             backgroundColor: isCurrent ? "#ffb74d" : undefined,
           }}
@@ -45,6 +45,7 @@ export default function Table({ rows }: Props) {
       )
     })
   }
+
   return (
     <TableContainer component={Paper}>
       <MuiTable aria-label="table">
