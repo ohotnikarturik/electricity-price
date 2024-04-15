@@ -32,7 +32,7 @@ const BarChart = ({ data }: Props) => {
         const isCurrentHour = isSameHour(item.date, new Date())
         return {
           date: format(item.date, "HH"),
-          price: formatPrice(item.value),
+          price: Number(formatPrice(item.value)),
           fill: isCurrentHour ? "#ffb74d" : "#8884d8",
         }
       }),
@@ -53,9 +53,9 @@ const BarChart = ({ data }: Props) => {
           bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="3 3" opacity={0.5} />
         <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-        <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
+        <YAxis tickCount={10} tick={{ fontSize: 12 }} allowDecimals={false} />
         <Tooltip />
         <Bar
           dataKey="price"
