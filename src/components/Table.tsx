@@ -20,19 +20,24 @@ export default function Table({ rows }: Props) {
   const renderRows = () => {
     return rows.map((row, i) => {
       const isCurrent = isSameHour(row.date, new Date())
+      const date =
+        i === 0 || i === rows.length - 1 ? format(row.date, "dd.MM") : undefined
 
       return (
         <TableRow
           key={i}
           sx={{
-            "&:last-child td, &:last-child th": {
+            "td, th": {
               border: 0,
             },
+            "&:nth-of-type(odd)": {
+              backgroundColor: "#eeeeee",
+            },
+            backgroundColor: isCurrent ? "#ffb74d" : undefined,
           }}
-          selected={isCurrent}
         >
           <TableCell component="th" scope="row">
-            {format(row.date, "dd.MM")}
+            {date}
           </TableCell>
           <TableCell align="right">{format(row.date, "HH:mm")}</TableCell>
           <TableCell align="right">{formatPrice(row.value)}</TableCell>
