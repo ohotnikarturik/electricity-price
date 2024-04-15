@@ -25,15 +25,6 @@ const theme = createTheme({
         }),
       },
     },
-    MuiTableRow: {
-      styleOverrides: {
-        root: {
-          "&.Mui-selected": {
-            backgroundColor: "#ffb74d",
-          },
-        },
-      },
-    },
   },
 })
 

@@ -55,7 +55,7 @@ const BarChart = ({ data }: Props) => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-        <YAxis tick={{ fontSize: 12 }} />
+        <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
         <Tooltip />
         <Bar
           dataKey="price"
