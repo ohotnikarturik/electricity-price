@@ -49,20 +49,21 @@ const BarChart = ({ data }: Props) => {
         margin={{
           top: 20,
           right: 20,
-          left: -10,
+          left: -25,
           bottom: 5,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" opacity={0.5} />
         <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-        <YAxis tickCount={10} tick={{ fontSize: 12 }} allowDecimals={false} />
+        <YAxis tickCount={6} tick={{ fontSize: 12 }} allowDecimals={false} />
         <Tooltip />
         <Bar
           dataKey="price"
           label={{
             position: "top",
-            fontSize: isXsSm ? 0 : isSmMd ? 6 : 9,
             fontWeight: "bold",
+            fontSize: isXsSm ? 5 : isSmMd ? 7 : 9,
+            ...(isXsSm && { angle: -90, offset: 12 }),
           }}
         />
       </Chart>
