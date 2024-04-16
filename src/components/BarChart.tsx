@@ -12,13 +12,37 @@ import {
 import useMediaQuery from "@mui/material/useMediaQuery"
 import { useMemo } from "react"
 import { format, isSameHour } from "date-fns"
+import { Card, Typography, useTheme } from "@mui/material"
 
 import { HourlyPrice } from "@/types"
 import { formatPrice } from "@/utils"
-import { useTheme } from "@mui/material"
 
 interface Props {
   data: HourlyPrice[]
+}
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean
+  payload?: any[]
+  label?: string
+}) => {
+  console.log(active, payload, label)
+  if (active && payload && payload.length) {
+    return (
+      <Card sx={{ p: 1 }}>
+        <Typography variant="body2">{`Time: ${label}`}</Typography>
+        <Typography variant="body2">{`Price: ${
+          payload.at(0).value
+        } snt/kWh`}</Typography>
+      </Card>
+    )
+  }
+
+  return null
 }
 
 const BarChart = ({ data }: Props) => {
@@ -31,7 +55,7 @@ const BarChart = ({ data }: Props) => {
       data.map((item) => {
         const isCurrentHour = isSameHour(item.date, new Date())
         return {
-          date: format(item.date, "HH"),
+          date: format(item.date, "HH:mm"),
           price: Number(formatPrice(item.value)),
           fill: isCurrentHour ? "#ffb74d" : "#8884d8",
         }
@@ -56,7 +80,7 @@ const BarChart = ({ data }: Props) => {
         <CartesianGrid strokeDasharray="3 3" opacity={0.5} />
         <XAxis dataKey="date" tick={{ fontSize: 12 }} />
         <YAxis tickCount={6} tick={{ fontSize: 12 }} allowDecimals={false} />
-        <Tooltip />
+        <Tooltip content={<CustomTooltip />} />
         <Bar
           dataKey="price"
           label={{
