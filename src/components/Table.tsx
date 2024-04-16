@@ -36,11 +36,15 @@ export default function Table({ rows }: Props) {
             backgroundColor: isCurrent ? "#ffb74d" : undefined,
           }}
         >
-          <TableCell component="th" scope="row">
+          <TableCell size="small" component="th" scope="row">
             {date}
           </TableCell>
-          <TableCell align="right">{format(row.date, "HH:mm")}</TableCell>
-          <TableCell align="right">{formatPrice(row.value)}</TableCell>
+          <TableCell size="small" align="right">
+            {format(row.date, "HH:mm")}
+          </TableCell>
+          <TableCell size="small" align="right">
+            {formatPrice(row.value)}
+          </TableCell>
         </TableRow>
       )
     })

@@ -13,7 +13,7 @@ const Header = () => {
       }}
     >
       <Typography variant="h5" component="h1" sx={{ textAlign: "center" }}>
-        Current spot price of electricity in Finland 🇫🇮
+        Current spot price of electricity in Finland🇫🇮
       </Typography>
     </Container>
   )
