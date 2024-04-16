@@ -63,30 +63,30 @@ export default function Home() {
           <Box
             sx={{
               width: "100%",
-              height: "80px",
               display: "flex",
               gap: 1,
+              flexWrap: "wrap",
             }}
           >
-            <Card sx={{ flex: 1, p: 1 }}>
+            <Card sx={{ flex: 1, minWidth: "160px", p: 2 }}>
               <Typography>Current Price</Typography>
               <Typography variant="caption" sx={{ fontWeight: "bold" }}>
                 {formatPrice(currentPrice?.value || 0)} snt/kWh
               </Typography>
             </Card>
-            <Card sx={{ flex: 1, p: 1 }}>
+            <Card sx={{ flex: 1, minWidth: "160px", p: 2 }}>
               <Typography>Highest Price</Typography>
               <Typography variant="caption" sx={{ fontWeight: "bold" }}>
                 {formatPrice(highestPrice || 0)} snt/kWh
               </Typography>
             </Card>
-            <Card sx={{ flex: 1, p: 1 }}>
+            <Card sx={{ flex: 1, minWidth: "160px", p: 2 }}>
               <Typography>Average Price</Typography>
               <Typography variant="caption" sx={{ fontWeight: "bold" }}>
                 {formatPrice(averagePrice || 0)} snt/kWh
               </Typography>
             </Card>
-            <Card sx={{ flex: 1, p: 1 }}>
+            <Card sx={{ flex: 1, minWidth: "160px", p: 2 }}>
               <Typography>Lowest Price</Typography>
               <Typography variant="caption" sx={{ fontWeight: "bold" }}>
                 {formatPrice(lowestPrice || 0)} snt/kWh
