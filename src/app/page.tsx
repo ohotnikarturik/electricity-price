@@ -10,6 +10,7 @@ import BarChart from "@/components/BarChart"
 import { HourlyPrice } from "@/types"
 import { format, isSameHour } from "date-fns"
 import { formatPrice } from "@/utils"
+import DigitalClock from "@/components/DigitalClock"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -54,12 +55,11 @@ export default function Home() {
         <CircularProgress />
       ) : hourlyPrices.length > 0 ? (
         <>
-          <Typography variant="body1">
-            {`${format(currentDay, "dd.MM.yyyy")} | ${format(
-              currentDay,
-              "HH:mm"
-            )}`}
-          </Typography>
+          <Box sx={{ display: "flex" }}>
+            <Typography>{format(currentDay, "dd.MM.yyyy")}</Typography>
+            <Typography px={1}>|</Typography>
+            <DigitalClock />
+          </Box>
           <Box
             sx={{
               width: "100%",
@@ -70,11 +70,9 @@ export default function Home() {
           >
             <Card sx={{ flex: 1, p: 1 }}>
               <Typography>Current Price</Typography>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                  {formatPrice(currentPrice?.value || 0)} snt/kWh
-                </Typography>
-              </Box>
+              <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+                {formatPrice(currentPrice?.value || 0)} snt/kWh
+              </Typography>
             </Card>
             <Card sx={{ flex: 1, p: 1 }}>
               <Typography>Highest Price</Typography>
