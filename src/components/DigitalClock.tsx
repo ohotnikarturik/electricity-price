@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material"
+import { format } from "date-fns"
 import React, { useState, useEffect } from "react"
 
 const DigitalClock = () => {
@@ -14,7 +15,7 @@ const DigitalClock = () => {
     }
   }, [])
 
-  return <Typography>{time.toLocaleTimeString()}</Typography>
+  return <Typography>{format(time, "HH:mm")}</Typography>
 }
 
 export default DigitalClock

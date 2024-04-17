@@ -30,7 +30,6 @@ const CustomTooltip = ({
   payload?: any[]
   label?: string
 }) => {
-  console.log(active, payload, label)
   if (active && payload && payload.length) {
     return (
       <Card sx={{ p: 1 }}>
