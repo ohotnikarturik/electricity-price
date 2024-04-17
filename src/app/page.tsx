@@ -4,6 +4,7 @@ import Box from "@mui/material/Box"
 import { Card, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import CircularProgress from "@mui/material/CircularProgress"
+import useSWR from "swr"
 
 import Table from "@/components/Table"
 import BarChart from "@/components/BarChart"
@@ -12,9 +13,12 @@ import { format, isSameHour } from "date-fns"
 import { formatPrice } from "@/utils"
 import DigitalClock from "@/components/DigitalClock"
 
+const fetcher = (...args: Parameters<typeof fetch>) =>
+  fetch(...args).then((res) => res.json())
+
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [hourlyPrices, setHourlyPrices] = useState<HourlyPrice[]>([])
+  const { data = [], error, isLoading } = useSWR("/api", fetcher)
+  const hourlyPrices: HourlyPrice[] = data
   const currentDay = new Date()
   const currentPrice = hourlyPrices.find(({ date }) =>
     isSameHour(date, currentDay)
@@ -25,20 +29,14 @@ export default function Home() {
   const averagePrice =
     arrayOfPrices.reduce((acc, price) => acc + price, 0) / arrayOfPrices.length
 
-  const getHourlyPrices = async () => {
-    try {
-      const res = await fetch("/api/", { cache: "no-store" })
-      const prises = await res.json()
-      setHourlyPrices(prises)
-    } catch (error) {
-      console.log("error", error)
-    }
-    setIsLoading(false)
+  if (error) {
+    console.log("error", error)
+    return (
+      <Typography variant="body2" sx={{ textAlign: "center" }}>
+        There is some Error. Please, try later
+      </Typography>
+    )
   }
-
-  useEffect(() => {
-    getHourlyPrices()
-  }, [])
 
   return (
     <Box
@@ -99,7 +97,7 @@ export default function Home() {
           <Table rows={hourlyPrices} />
         </>
       ) : (
-        <Typography variant="body2">Try later, please</Typography>
+        <Typography variant="body2">There is no data at the moment</Typography>
       )}
     </Box>
   )
