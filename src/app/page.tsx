@@ -16,6 +16,8 @@ import DigitalClock from "@/components/DigitalClock"
 const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json())
 
+export const dynamic = "force-dynamic"
+
 export default function Home() {
   const { data = [], error, isLoading } = useSWR("/api", fetcher)
   const hourlyPrices: HourlyPrice[] = data
