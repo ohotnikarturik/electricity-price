@@ -1,53 +1,34 @@
-"use client"
-
 import Box from "@mui/material/Box"
 import { Card, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
-import CircularProgress from "@mui/material/CircularProgress"
+import { Prices } from "nordpool"
 
 import Table from "@/components/Table"
 import BarChart from "@/components/BarChart"
-import { HourlyPrice } from "@/types"
+// import { HourlyPrice } from "@/types"
 import { format, isSameHour } from "date-fns"
 import { formatPrice } from "@/utils"
 import DigitalClock from "@/components/DigitalClock"
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [hourlyPrices, setHourlyPrices] = useState<HourlyPrice[]>([])
-  const currentDay = new Date()
-  const currentPrice = hourlyPrices.find(({ date }) =>
-    isSameHour(date, currentDay)
+const prices = new Prices()
+
+export default async function Home() {
+  const today = new Date()
+  // const tomorrow = today
+  // tomorrow.setDate(tomorrow.getDate() + 1)
+
+  const hourlyPricesToday =
+    (await prices.hourly({ area: "FI", date: today })) || []
+  // const hourlyPricesTomorrow =
+  //   (await prices.hourly({ area: "FI", date: tomorrow })) || []
+
+  const currentPrice = hourlyPricesToday.find(({ date }) =>
+    isSameHour(date, today)
   )
-  const arrayOfPrices = hourlyPrices.map(({ value }) => value)
+  const arrayOfPrices = hourlyPricesToday.map(({ value }) => value)
   const highestPrice = Math.max(...arrayOfPrices)
   const lowestPrice = Math.min(...arrayOfPrices)
   const averagePrice =
     arrayOfPrices.reduce((acc, price) => acc + price, 0) / arrayOfPrices.length
-
-  const getHourlyPrices = async () => {
-    try {
-      const res = await fetch("/api/", { cache: "no-store" })
-      const prises = await res.json()
-      setHourlyPrices(prises)
-    } catch (error) {
-      console.log("error", error)
-    }
-    setIsLoading(false)
-  }
-
-  useEffect(() => {
-    getHourlyPrices()
-  }, [])
-
-  // if (error) {
-  //   console.log("error", error)
-  //   return (
-  //     <Typography variant="body2" sx={{ textAlign: "center" }}>
-  //       There is some Error. Please, try later
-  //     </Typography>
-  //   )
-  // }
 
   return (
     <Box
@@ -60,12 +41,10 @@ export default function Home() {
         gap: 2,
       }}
     >
-      {isLoading ? (
-        <CircularProgress />
-      ) : hourlyPrices.length > 0 ? (
+      {hourlyPricesToday.length > 0 ? (
         <>
           <Box sx={{ display: "flex" }}>
-            <Typography>{format(currentDay, "dd.MM.yyyy")}</Typography>
+            <Typography>{format(today, "dd.MM.yyyy")}</Typography>
             <Typography px={1}>|</Typography>
             <DigitalClock />
           </Box>
@@ -103,9 +82,9 @@ export default function Home() {
             </Card>
           </Box>
           <Card sx={{ width: "100%" }}>
-            <BarChart data={hourlyPrices} />
+            <BarChart data={hourlyPricesToday} />
           </Card>
-          <Table rows={hourlyPrices} />
+          <Table rows={hourlyPricesToday} />
         </>
       ) : (
         <Typography variant="body2">There is no data at the moment</Typography>
