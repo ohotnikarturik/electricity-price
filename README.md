@@ -27,3 +27,5 @@ Run the development server:
 ```bash
 npm run dev
 ```
+
+## [Demo](https://electricity-price-eight.vercel.app/)
