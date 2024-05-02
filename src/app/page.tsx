@@ -13,22 +13,15 @@ const prices = new Prices()
 
 export default async function Home() {
   const today = new Date()
-  // const tomorrow = today
-  // tomorrow.setDate(tomorrow.getDate() + 1)
-
-  const hourlyPricesToday =
-    (await prices.hourly({ area: "FI", date: today })) || []
-  // const hourlyPricesTomorrow =
-  //   (await prices.hourly({ area: "FI", date: tomorrow })) || []
-
-  const currentPrice = hourlyPricesToday.find(({ date }) =>
+  const hourlyPrices = (await prices.hourly({ area: "FI", date: today })) || []
+  const currentHourPrice = hourlyPrices.find(({ date }) =>
     isSameHour(date, today)
   )
-  const arrayOfPrices = hourlyPricesToday.map(({ value }) => value)
-  const highestPrice = Math.max(...arrayOfPrices)
-  const lowestPrice = Math.min(...arrayOfPrices)
-  const averagePrice =
-    arrayOfPrices.reduce((acc, price) => acc + price, 0) / arrayOfPrices.length
+  const priceValues = hourlyPrices.map(({ value }) => value)
+  const maxPrice = Math.max(...priceValues)
+  const minPrice = Math.min(...priceValues)
+  const avgPrice =
+    priceValues.reduce((acc, price) => acc + price, 0) / priceValues.length
 
   return (
     <Box
@@ -41,7 +34,7 @@ export default async function Home() {
         gap: 2,
       }}
     >
-      {hourlyPricesToday.length > 0 ? (
+      {hourlyPrices.length > 0 ? (
         <>
           <Box sx={{ display: "flex" }}>
             <Typography>{format(today, "dd.MM.yyyy")}</Typography>
@@ -66,7 +59,7 @@ export default async function Home() {
             >
               <Typography>Current Price</Typography>
               <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                {formatPrice(currentPrice?.value || 0)} snt/kWh
+                {formatPrice(currentHourPrice?.value || 0)} snt/kWh
               </Typography>
             </Card>
             <Card
@@ -80,7 +73,7 @@ export default async function Home() {
             >
               <Typography>Highest Price</Typography>
               <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                {formatPrice(highestPrice || 0)} snt/kWh
+                {formatPrice(maxPrice || 0)} snt/kWh
               </Typography>
             </Card>
             <Card
@@ -94,7 +87,7 @@ export default async function Home() {
             >
               <Typography>Average Price</Typography>
               <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                {formatPrice(averagePrice || 0)} snt/kWh
+                {formatPrice(avgPrice || 0)} snt/kWh
               </Typography>
             </Card>
             <Card
@@ -108,14 +101,14 @@ export default async function Home() {
             >
               <Typography>Lowest Price</Typography>
               <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-                {formatPrice(lowestPrice || 0)} snt/kWh
+                {formatPrice(minPrice || 0)} snt/kWh
               </Typography>
             </Card>
           </Box>
           <Card sx={{ width: "100%" }}>
-            <BarChart data={hourlyPricesToday} />
+            <BarChart data={hourlyPrices} />
           </Card>
-          <Table rows={hourlyPricesToday} />
+          <Table rows={hourlyPrices} />
         </>
       ) : (
         <Typography variant="body2">There is no data at the moment</Typography>
