@@ -106,7 +106,7 @@ export default async function Home() {
             </Card>
           </Box>
           <Card sx={{ width: "100%" }}>
-            <BarChart data={hourlyPrices} />
+            <BarChart hourlyPrices={hourlyPrices} />
           </Card>
           <Table rows={hourlyPrices} />
         </>

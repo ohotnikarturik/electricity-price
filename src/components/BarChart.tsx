@@ -18,7 +18,7 @@ import { HourlyPrice } from "@/types"
 import { formatPrice } from "@/utils"
 
 interface Props {
-  data: HourlyPrice[]
+  hourlyPrices: HourlyPrice[]
 }
 
 const CustomTooltip = ({
@@ -44,19 +44,19 @@ const CustomTooltip = ({
   return null
 }
 
-const BarChart = ({ data }: Props) => {
+const BarChart = ({ hourlyPrices }: Props) => {
   const theme = useTheme()
   const isXsSm = useMediaQuery(theme.breakpoints.between("xs", "sm"))
   const isSmMd = useMediaQuery(theme.breakpoints.between("sm", "md"))
 
-  const adjustedData = useMemo(
+  const formattedHourlyPrices = useMemo(
     () =>
-      data.map((item) => {
-        const isCurrentHour = isSameHour(item.date, new Date())
+      hourlyPrices.map((hourlyPrice) => {
+        const isCurrentHourPrice = isSameHour(hourlyPrice.date, new Date())
         return {
-          date: format(item.date, "HH:mm"),
-          price: Number(formatPrice(item.value)),
-          fill: isCurrentHour ? "#ffb74d" : "#8884d8",
+          date: format(hourlyPrice.date, "HH:mm"),
+          price: Number(formatPrice(hourlyPrice.value)),
+          fill: isCurrentHourPrice ? "#ffb74d" : "#8884d8",
         }
       }),
     []
@@ -68,7 +68,7 @@ const BarChart = ({ data }: Props) => {
       height={isXsSm ? 200 : isSmMd ? 280 : 380}
     >
       <Chart
-        data={adjustedData}
+        data={formattedHourlyPrices}
         margin={{
           top: 20,
           right: 20,
